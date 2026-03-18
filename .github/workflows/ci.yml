@@ -15,14 +15,14 @@ jobs:
       - name: Installer Node
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '20'
 
       - name: Installer dépendances
         run: npm install
 
       - name: Lancer app (test simple)
         run: node app.js &
-        
+
   sast:
     runs-on: ubuntu-latest
 
