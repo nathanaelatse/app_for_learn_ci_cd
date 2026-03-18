@@ -22,3 +22,14 @@ jobs:
 
       - name: Lancer app (test simple)
         run: node app.js &
+        
+  sast:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan SAST
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: p/owasp-top-ten
