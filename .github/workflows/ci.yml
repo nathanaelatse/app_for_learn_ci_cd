@@ -25,26 +25,11 @@ jobs:
 
   sast:
     runs-on: ubuntu-latest
-    needs: build
 
     steps:
-      - name: Récupérer le code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Installer Python
-        uses: actions/setup-python@v5
+      - name: Scan SAST
+        uses: returntocorp/semgrep-action@v1
         with:
-          python-version: '3.11'
-
-      - name: Installer Semgrep
-        run: pip install semgrep
-
-      - name: Lancer Semgrep (JSON)
-        run: |
-          semgrep --config=p/owasp-top-ten --json --output=semgrep-report.json .
-
-      - name: Upload rapport JSON
-        uses: actions/upload-artifact@v4
-        with:
-          name: semgrep-report
-          path: semgrep-report.json
+          config: p/owasp-top-ten
