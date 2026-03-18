@@ -28,11 +28,19 @@ jobs:
     needs: build
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Récupérer le code
+        uses: actions/checkout@v4
 
-      - name: Run Semgrep
-        run: |
-          semgrep --config=p/owasp-top-ten --sarif > semgrep.sarif
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Installer Semgrep
+        run: pip install semgrep
+
+      - name: Lancer Semgrep en SARIF
+        run: semgrep --config=p/owasp-top-ten --sarif --output=semgrep.sarif .
 
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v3
