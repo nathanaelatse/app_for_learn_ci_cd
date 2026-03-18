@@ -39,10 +39,12 @@ jobs:
       - name: Installer Semgrep
         run: pip install semgrep
 
-      - name: Lancer Semgrep en SARIF
-        run: semgrep --config=p/owasp-top-ten --sarif --output=semgrep.sarif .
+      - name: Lancer Semgrep (JSON)
+        run: |
+          semgrep --config=p/owasp-top-ten --json --output=semgrep-report.json .
 
-      - name: Upload SARIF
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Upload rapport JSON
+        uses: actions/upload-artifact@v4
         with:
-          sarif_file: semgrep.sarif
+          name: semgrep-report
+          path: semgrep-report.json
