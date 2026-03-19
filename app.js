@@ -1,5 +1,3 @@
-
-
 const express = require("express");
 const app = express();
 
@@ -16,15 +14,20 @@ app.get("/hello", (req, res) => {
 });
 
 app.get("/redirect", (req, res) => {
-  const url = req.query.url;
+  const url = String(req.query.url || "");
 
-  const allowedPaths = ["/", "/hello"];
+  const redirectMap = {
+    home: "/",
+    hello: "/hello"
+  };
 
-  if (!allowedPaths.includes(url)) {
+  const safeTarget = redirectMap[url];
+
+  if (!safeTarget) {
     return res.status(400).send("URL de redirection non autorisée");
   }
 
-  res.redirect(url);
+  return res.redirect(safeTarget);
 });
 
 app.post("/calc", (req, res) => {
